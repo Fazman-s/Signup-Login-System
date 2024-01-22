@@ -1,42 +1,132 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-	<title>Login Register App</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
-	</script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="./css/main.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./css/main.css">
+    <style>
+        body {
+            margin-top: 70px; /* Adjust the margin to accommodate the fixed header */
+        }
+
+        .profile-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header .profile-icon {
+            float: right;
+            margin-right: 20px;
+            margin-top: 15px;
+            font-size: 24px;
+            color: #3498db;
+        }
+    </style>
 </head>
 
 <body>
-	<div class="col-md-4 col-md-offset-4 form-card">
-		<div>
-			<p>Profile Detail</p>
-		</div>
-		<div>
-			<center>
-				<table class="table table-hover text-center">
-					<tr>
-						<td>Name </td>
-						<td>
-							<%= name %>
-						</td>
-					</tr>
-					<tr>
-						<td>Email </td>
-						<td>
-							<%= email %>
-						</td>
-					</tr>
-				</table>
-			</center>
-		</div>
-		<div class="abc" id="LangTable">
-			<a href="/logout">Logout</a>
-		</div>
-	</div>
+    <!-- Header -->
+    <div class="navbar navbar-inverse navbar-fixed-top profile-header">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Your Logo</a>
+            </div>
+            <!-- Profile Icon -->
+            <div class="profile-icon">
+                <i class="glyphicon glyphicon-user"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-md-6 col-md-offset-3 form-card">
+        <div>
+            <h2>Your Profile</h2>
+        </div>
+		<form id="profileForm">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" class="form-control" value="<%= name %>" readonly>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" class="form-control" value="<%= email %>" readonly>
+            </div>
+            <!-- Add more fields for other user information -->
+
+            <div class="form-group">
+                <button type="button" id="editProfile" class="btn btn-primary">Edit Profile</button>
+                <button type="submit" id="updateProfile" class="btn btn-success" style="display:none;">Update Profile</button>
+            </div>
+        </form>
+        <div class="abc" id="LangTable">
+            <a href="/logout">Logout</a>
+        </div>
+        <div class="mssg bg-success">
+            <span id="check"></span>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(() => {
+            $("#editProfile").click(() => {
+                // Enable form fields for editing
+                $("form :input").prop("readonly", false);
+                $("#editProfile").hide();
+                $("#updateProfile").show();
+            });
+
+            $("#profileForm").submit((event) => {
+                event.preventDefault();
+
+                // Assuming you have an API endpoint for updating user profile, replace '/updateProfile' with your actual endpoint
+                $.ajax({
+                    type: 'POST',
+                    url: '/updateProfile',
+                    data: $('#profileForm').serialize(),
+                    dataType: "json",
+                    success: (response) => {
+                        // Update success message or perform any necessary actions
+                        console.log(response);
+
+                        // Disable form fields for editing
+                        $("form :input").prop("readonly", true);
+                        $("#editProfile").show();
+                        $("#updateProfile").hide();
+
+                        // Display a success message
+                        document.getElementById("check").innerHTML = "Profile updated successfully.";
+
+                        setTimeout(() => {
+                            document.getElementById("check").innerHTML = "";
+                        }, 3000);
+                    },
+                    error: (error) => {
+                        // Handle errors, display error messages, etc.
+                        console.error(error);
+
+                        // Display an error message
+                        document.getElementById("check").innerHTML = "Failed to update profile. Please try again.";
+
+                        setTimeout(() => {
+                            document.getElementById("check").innerHTML = "";
+                        }, 3000);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
