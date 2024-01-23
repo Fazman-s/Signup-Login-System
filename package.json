@@ -21,12 +21,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/FSojitra/Node.js-Register-Login-App.git"
+    "url": "https://github.com/Fazman-s/Signup-Login-System.git"
   },
-  "author": "foram sojitra",
+  "author": "Fazman",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/FSojitra/Node.js-Register-Login-App/issues"
+    "url": "https://github.com/Fazman-s/Signup-Login-System"
   },
-  "homepage": "https://github.com/FSojitra/Node.js-Register-Login-App#readme"
+  "homepage": "https://github.com/Fazman-s/Signup-Login-System#readme"
 }
