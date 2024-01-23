@@ -6,9 +6,19 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
+const cors = require('cors');
 
-const MongoDBURI = process.env.MONGO_URI || 'mongodb://localhost/ManualAuth';
+app.use(cors({
+  origin: ["https://signup-login-system.vercel.app"],
+  methods: ["GET", "POST"],
+  credentials: true
+}
 
+));
+
+app.use(express.json());
+
+const MongoDBURI = process.env.MONGO_URI || 'mongodb:/localhost:27017/ManualAuth';
 mongoose.connect(MongoDBURI, {
   useUnifiedTopology: true,
   useNewUrlParser: true
