@@ -18,16 +18,7 @@ app.use(cors({
 
 app.use(express.json());
 
-const MongoDBURI = process.env.MONGO_URI || 'mongodb+srv://fazman:vNLqIL9YlSuq8JvN@cluster0.5orgyuy.mongodb.net/ManualAuth?retryWrites=true&w=majority';
-
-mongoose.connect(MongoDBURI, {
-  useUnifiedTopology: true,
-  useNewUrlParser: true
-});
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', () => {
-});
+mongoose.connect('mongodb+srv://fazman:vNLqIL9YlSuq8JvN@cluster0.5orgyuy.mongodb.net/ManualAuth?retryWrites=true&w=majority');
 
 app.use(session({
   secret: 'work hard',
